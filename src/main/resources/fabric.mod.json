@@ -2,14 +2,15 @@
   "schemaVersion": 1,
   "id": "isometric-renders",
   "version": "${version}",
-  "name": "Isometric Renders",
+  "name": "Wikitools Renders",
   "description": "Creates high-resolution renders of game objects",
   "authors": [
-    "glisco"
+    "glisco",
+    "BuggyAl"
   ],
   "contact": {
-    "issues": "https://github.com/gliscowo/isometric-renders/issues",
-    "sources": "https://github.com/gliscowo/isometric-renders"
+    "issues": "https://github.com/BuggyAl/wikitools-renders/issues",
+    "sources": "https://github.com/BuggyAl/wikitools-renders"
   },
   "license": "MIT",
   "icon": "assets/isometric-renders/icon.png",
@@ -39,7 +40,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.discord": "https://discord.gg/xrwHKktV2d"
+        "modmenu.discord": "https://discord.gg/PcnEMau8A8"
       }
     }
   }

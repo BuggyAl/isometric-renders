@@ -1,6 +1,6 @@
 package com.glisco.isometricrenders;
 
-import com.glisco.isometricrenders.command.IsorenderCommand;
+import com.glisco.isometricrenders.command.WikirenderCommand;
 import com.glisco.isometricrenders.util.AreaSelectionHelper;
 import com.glisco.isometricrenders.util.ImageIO;
 import com.glisco.isometricrenders.util.ParticleRestriction;
@@ -46,7 +46,7 @@ public class IsometricRenders implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientCommandRegistrationCallback.EVENT.register(IsorenderCommand::register);
+        ClientCommandRegistrationCallback.EVENT.register(WikirenderCommand::register);
 
         KeyBindingHelper.registerKeyBinding(SELECT);
 
