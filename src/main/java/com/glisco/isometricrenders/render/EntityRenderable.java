@@ -5,8 +5,11 @@ import com.glisco.isometricrenders.property.IntProperty;
 import com.glisco.isometricrenders.screen.IsometricUI;
 import com.glisco.isometricrenders.util.ExportPathSpec;
 import com.glisco.isometricrenders.util.ParticleRestriction;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import io.wispforest.owo.ui.container.FlowLayout;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,6 +25,7 @@ import net.minecraft.util.math.Vec3d;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -56,10 +60,21 @@ public class EntityRenderable extends DefaultRenderable<DefaultPropertyBundle> i
         source.writeNbt(nbt);
         nbt.putString("id", source.getType().getRegistryEntry().registryKey().getValue().toString());
 
-        final var entity = EntityType.loadEntityWithPassengers(nbt, client.world, SpawnReason.LOAD, Function.identity());
-        applyToEntityAndPassengers(entity, Entity::tick);
+        if (source instanceof OtherClientPlayerEntity) {
+            GameProfile originalProfile = ((OtherClientPlayerEntity) source).getGameProfile();
+            GameProfile fakeProfile = new GameProfile(originalProfile.getId(), originalProfile.getName());
 
-        return new EntityRenderable(entity);
+            for (Map.Entry<String, Property> entry : originalProfile.getProperties().entries()) {
+                fakeProfile.getProperties().put(entry.getKey(), entry.getValue());
+            }
+
+            NPCRenderable fakeRenderablePlayer = NPCRenderable.createRenderablePlayer(fakeProfile);
+            fakeRenderablePlayer.readNbt(source.writeNbt(new NbtCompound()));
+            return new EntityRenderable(fakeRenderablePlayer);
+        } else {
+            final var entity = EntityType.loadEntityWithPassengers(nbt, client.world, SpawnReason.LOAD, Function.identity());
+            return new EntityRenderable(entity);
+        }
     }
 
     @Override

@@ -143,9 +143,7 @@ public class IsorenderCommand {
 
         final var playerNbt = NbtCompoundArgumentType.getNbtCompound(context, "nbt");
         final var player = EntityComponent.createRenderablePlayer(gameProfile.get());
-        ((ClientPlayerEntity) player).readNbt(
-                playerNbt
-        );
+        player.readNbt(playerNbt);
 
         ScreenScheduler.schedule(new RenderScreen(
                 new EntityRenderable(player)
@@ -176,7 +174,7 @@ public class IsorenderCommand {
 
     private static int renderSelf(CommandContext<FabricClientCommandSource> context) {
         final var player = EntityComponent.createRenderablePlayer(MinecraftClient.getInstance().player.getGameProfile());
-        ((ClientPlayerEntity) player).readNbt(
+        player.readNbt(
                 MinecraftClient.getInstance().player.writeNbt(new NbtCompound())
         );
 
