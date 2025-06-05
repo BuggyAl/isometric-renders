@@ -55,15 +55,15 @@ public class RenderableDispatcher {
 
         // TODO replacement?
 //        RenderSystem.runAsFancy(() -> {
-            // Emit untransformed vertices
-            renderable.emitVertices(
-                    new MatrixStack(),
-                    MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers(),
-                    tickDelta
-            );
+        // Emit untransformed vertices
+        renderable.emitVertices(
+                new MatrixStack(),
+                MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers(),
+                tickDelta
+        );
 
-            // --> Draw
-            renderable.draw(modelViewStack);
+        // --> Draw
+        renderable.draw(modelViewStack);
 //        });
 
         IsometricRenders.endRenderableDraw();

@@ -17,7 +17,6 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import io.wispforest.owo.ui.component.EntityComponent;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.*;

@@ -50,13 +50,13 @@ public class ItemRenderable extends DefaultRenderable<DefaultPropertyBundle> {
     @Override
     public void prepare() {
         MinecraftClient.getInstance().getItemModelManager().update(
-            RENDER_STATE,
-            this.stack,
-            ModelTransformationMode.GUI,
-            false,
-            MinecraftClient.getInstance().world,
-            null,
-            0
+                RENDER_STATE,
+                this.stack,
+                ModelTransformationMode.GUI,
+                false,
+                MinecraftClient.getInstance().world,
+                null,
+                0
         );
     }
 
@@ -79,8 +79,8 @@ public class ItemRenderable extends DefaultRenderable<DefaultPropertyBundle> {
     @Override
     public ExportPathSpec exportPath() {
         return ExportPathSpec.ofIdentified(
-            Registries.ITEM.getId(this.stack.getItem()),
-            "item"
+                Registries.ITEM.getId(this.stack.getItem()),
+                "item"
         );
     }
 

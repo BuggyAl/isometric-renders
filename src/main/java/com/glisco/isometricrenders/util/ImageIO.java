@@ -1,4 +1,3 @@
-
 package com.glisco.isometricrenders.util;
 
 import com.glisco.isometricrenders.IsometricRenders;

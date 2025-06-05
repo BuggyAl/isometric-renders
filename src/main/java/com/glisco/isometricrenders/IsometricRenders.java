@@ -94,11 +94,11 @@ public class IsometricRenders implements ClientModInitializer {
         skipWorldRender = true;
     }
 
-    public static void beginRenderableDraw(){
+    public static void beginRenderableDraw() {
         inRenderableDraw = true;
     }
 
-    public static void endRenderableDraw(){
+    public static void endRenderableDraw() {
         inRenderableDraw = false;
     }
 

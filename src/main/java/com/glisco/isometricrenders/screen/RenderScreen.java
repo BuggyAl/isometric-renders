@@ -18,9 +18,9 @@ import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.core.Color;
 import io.wispforest.owo.ui.core.Insets;
-import io.wispforest.owo.ui.core.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.MinecraftClient;
@@ -73,7 +73,8 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
     private final MemoryGuard memoryGuard = new MemoryGuard(0.75f);
 
     private final Renderable<?> renderable;
-    private Consumer<File> exportCallback = (file) -> {};
+    private Consumer<File> exportCallback = (file) -> {
+    };
 
     public final Property<Boolean> playAnimations = Property.of(false);
     public final Property<Boolean> tickParticles = Property.of(true);
@@ -127,11 +128,11 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
             this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(this.width - this.viewportEndX)).verticalSizing(Sizing.fixed(this.height));
 
             this.rightAnchor.child(
-                Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
-                    .child(leftColumn)
-                    .child(Components.box(Sizing.fill(85), Sizing.fixed(1)).color(Color.ofDye(DyeColor.GRAY)).fill(true).margins(Insets.top(15)))
-                    .child(rightColumn)
-                    .horizontalAlignment(HorizontalAlignment.CENTER))
+                    Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
+                            .child(leftColumn)
+                            .child(Components.box(Sizing.fill(85), Sizing.fixed(1)).color(Color.ofDye(DyeColor.GRAY)).fill(true).margins(Insets.top(15)))
+                            .child(rightColumn)
+                            .horizontalAlignment(HorizontalAlignment.CENTER))
 
             );
         } else {
@@ -163,10 +164,10 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
         rootComponent.child(rightAnchor.padding(Insets.left(10)));
 
         rootComponent.child(
-            this.notificationArea.child(this.ioStateComponent.positioning(Positioning.relative(0, 100)))
-                .horizontalAlignment(HorizontalAlignment.RIGHT)
-                .verticalAlignment(VerticalAlignment.BOTTOM)
-                .padding(Insets.of(5))
+                this.notificationArea.child(this.ioStateComponent.positioning(Positioning.relative(0, 100)))
+                        .horizontalAlignment(HorizontalAlignment.RIGHT)
+                        .verticalAlignment(VerticalAlignment.BOTTOM)
+                        .padding(Insets.of(5))
         );
 
         this.renderable.properties().buildGuiControls(this.renderable, this.leftColumn);
@@ -283,24 +284,24 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
 
                 IsometricUI.dynamicLabel(rightColumn, () -> {
                     return this.remainingAnimationFrames == 0
-                        ? Text.empty()
-                        : Translate.gui("export_remaining_frames", this.remainingAnimationFrames);
+                            ? Text.empty()
+                            : Translate.gui("export_remaining_frames", this.remainingAnimationFrames);
                 });
             } else {
                 IsometricUI.sectionHeader(rightColumn, "no_ffmpeg_1", true);
                 IsometricUI.sectionHeader(rightColumn, "no_ffmpeg_2", false);
                 IsometricUI.sectionHeader(rightColumn, "no_ffmpeg_3", false)
-                    .cursorStyle(CursorStyle.HAND)
-                    .mouseDown().subscribe((mouseX, mouseY, button) -> {
-                        this.client.setScreen(new ConfirmLinkScreen(confirmed -> {
-                            if (confirmed) {
-                                Util.getOperatingSystem().open("https://ffmpeg.org/download.html");
-                            }
+                        .cursorStyle(CursorStyle.HAND)
+                        .mouseDown().subscribe((mouseX, mouseY, button) -> {
+                            this.client.setScreen(new ConfirmLinkScreen(confirmed -> {
+                                if (confirmed) {
+                                    Util.getOperatingSystem().open("https://ffmpeg.org/download.html");
+                                }
 
-                            this.client.setScreen(this);
-                        }, "https://ffmpeg.org/download.html", true));
-                        return true;
-                    });
+                                this.client.setScreen(this);
+                            }, "https://ffmpeg.org/download.html", true));
+                            return true;
+                        });
             }
         } else {
             IsometricUI.sectionHeader(rightColumn, "detecting_ffmpeg", false);
@@ -334,12 +335,13 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
         final var window = client.getWindow();
         final var effectiveTickDelta = playAnimations.get() ? client.getRenderTickCounter().getTickDelta(false) : 0;
         RenderableDispatcher.drawIntoActiveFramebuffer(
-            this.renderable,
-            window.getFramebufferWidth() / (float) window.getFramebufferHeight(),
-            effectiveTickDelta,
-            this.hasBothColumns
-                ? matrixStack -> {}
-                : matrixStack -> matrixStack.translate(1 - window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0, 0)
+                this.renderable,
+                window.getFramebufferWidth() / (float) window.getFramebufferHeight(),
+                effectiveTickDelta,
+                this.hasBothColumns
+                        ? matrixStack -> {
+                }
+                        : matrixStack -> matrixStack.translate(1 - window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0, 0)
         );
 
         if (!this.drawOnlyBackground && this.uiAdapter != null) {
@@ -375,14 +377,14 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
 
         if (this.captureScheduled) {
             ImageIO.save(
-                RenderableDispatcher.drawIntoImage(this.renderable, 0, exportResolution),
-                this.renderable.exportPath()
+                    RenderableDispatcher.drawIntoImage(this.renderable, 0, exportResolution),
+                    this.renderable.exportPath()
             ).whenComplete((file, throwable) -> {
                 exportCallback.accept(file);
                 this.client.execute(() -> this.notify(
-                    () -> Util.getOperatingSystem().open(file),
-                    Translate.gui("exported_as"),
-                    Text.literal(ExportPathSpec.exportRoot().relativize(file.toPath()).toString())
+                        () -> Util.getOperatingSystem().open(file),
+                        Translate.gui("exported_as"),
+                        Text.literal(ExportPathSpec.exportRoot().relativize(file.toPath()).toString())
                 ));
             });
 
@@ -404,8 +406,8 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
 
                 for (int i = 0; i < this.renderedFrames.size(); i++) {
                     exportFuture = ImageIO.save(
-                        RenderableDispatcher.copyFramebufferIntoImage(this.renderedFrames.get(i)),
-                        ExportPathSpec.forced("sequence", "seq_" + i)
+                            RenderableDispatcher.copyFramebufferIntoImage(this.renderedFrames.get(i)),
+                            ExportPathSpec.forced("sequence", "seq_" + i)
                     );
                     this.renderedFrames.get(i).delete();
                 }
@@ -420,17 +422,17 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
                     this.client.execute(() -> this.notify(Translate.gui("converting_image_sequence")));
 
                     FFmpegDispatcher.assemble(
-                        this.renderable.exportPath(),
-                        ExportPathSpec.exportRoot().resolve("sequence/"),
-                        animationFormat
+                            this.renderable.exportPath(),
+                            ExportPathSpec.exportRoot().resolve("sequence/"),
+                            animationFormat
                     ).whenComplete((animationFile, animationThrowable) -> {
                         this.exportAnimationButton.active = true;
                         this.exportAnimationButton.setMessage(Translate.gui("export_animation"));
 
                         this.client.execute(() -> this.notify(
-                            () -> Util.getOperatingSystem().open(animationFile),
-                            Translate.gui("animation_saved"),
-                            Text.literal(ExportPathSpec.exportRoot().relativize(animationFile.toPath()).toString())
+                                () -> Util.getOperatingSystem().open(animationFile),
+                                Translate.gui("animation_saved"),
+                                Text.literal(ExportPathSpec.exportRoot().relativize(animationFile.toPath()).toString())
                         ));
                     });
                 });
