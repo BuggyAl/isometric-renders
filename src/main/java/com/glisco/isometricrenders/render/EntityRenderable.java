@@ -91,11 +91,11 @@ public class EntityRenderable extends DefaultRenderable<DefaultPropertyBundle> i
 
         var properties = this.properties();
         this.entity.setHeadYaw(properties.yaw.get());
-        if (entity instanceof LivingEntity living) living.prevHeadYaw = properties.yaw.get();
-        this.entity.prevYaw = properties.yaw.get();
+        if (entity instanceof LivingEntity living) living.lastHeadYaw = properties.yaw.get();
+        this.entity.lastYaw = properties.yaw.get();
 
         this.entity.setPitch(properties.pitch.get());
-        this.entity.prevPitch = properties.pitch.get();
+        this.entity.lastPitch = properties.pitch.get();
 
         final MutableObject<Vec3d> offset = new MutableObject<>(Vec3d.ZERO);
 

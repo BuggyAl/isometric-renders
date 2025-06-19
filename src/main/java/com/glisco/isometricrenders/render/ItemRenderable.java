@@ -9,8 +9,8 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4fStack;
@@ -49,10 +49,10 @@ public class ItemRenderable extends DefaultRenderable<DefaultPropertyBundle> {
 
     @Override
     public void prepare() {
-        MinecraftClient.getInstance().getItemModelManager().update(
+        MinecraftClient.getInstance().getItemModelManager().clearAndUpdate(
                 RENDER_STATE,
                 this.stack,
-                ModelTransformationMode.GUI,
+                ItemDisplayContext.GUI,
                 false,
                 MinecraftClient.getInstance().world,
                 null,
@@ -62,7 +62,7 @@ public class ItemRenderable extends DefaultRenderable<DefaultPropertyBundle> {
 
     @Override
     public void emitVertices(MatrixStack matrices, VertexConsumerProvider vertexConsumers, float tickDelta) {
-        ((ItemRenderStateAccessor) RENDER_STATE).isometric$setTransformationMode(ModelTransformationMode.NONE);
+        ((ItemRenderStateAccessor) RENDER_STATE).isometric$setTransformationMode(ItemDisplayContext.NONE);
         RENDER_STATE.render(matrices, vertexConsumers, LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV);
     }
 

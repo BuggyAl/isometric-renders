@@ -19,8 +19,6 @@ import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
-import io.wispforest.owo.ui.core.Color;
-import io.wispforest.owo.ui.core.Insets;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.MinecraftClient;
@@ -333,7 +331,7 @@ public class RenderScreen extends BaseOwoScreen<FlowLayout> {
         context.draw();
 
         final var window = client.getWindow();
-        final var effectiveTickDelta = playAnimations.get() ? client.getRenderTickCounter().getTickDelta(false) : 0;
+        final var effectiveTickDelta = playAnimations.get() ? client.getRenderTickCounter().getTickProgress(false) : 0;
         RenderableDispatcher.drawIntoActiveFramebuffer(
                 this.renderable,
                 window.getFramebufferWidth() / (float) window.getFramebufferHeight(),
