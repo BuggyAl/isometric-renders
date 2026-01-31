@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has been archived and the mod is no longer in development. For a similar, more feature-rich tool for the latest _Minecraft_ version, see [WikiRenderer](https://github.com/skyblock-wiki/WikiRenderer).
+
 # Wikitools Renders
 
 ## Overview
